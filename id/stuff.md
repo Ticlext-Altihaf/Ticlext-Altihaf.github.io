@@ -27,3 +27,13 @@
 ![image](https://user-images.githubusercontent.com/77704356/154438988-451d0e43-545d-4c0d-93b2-031344eb3bed.png)
 
 5. Submit dan tunggu
+
+6. Jika berhasil klik link berikut [https://education.github.com/pack/offers](https://education.github.com/pack/offers)
+7. Cari Namcheap dan klik link berikut
+![image](https://user-images.githubusercontent.com/77704356/154447448-b0a95409-4c5b-4b79-bb9d-79e9b987f5d5.png)
+8. Ketik nama domain yang kalian inginkan.
+9. Klik Add 
+![image](https://user-images.githubusercontent.com/77704356/154447730-1628b4ad-4ff0-40a2-9b6d-ea83e640fcc1.png)
+10. Ceklis GitHub pages dan click finish up
+![image](https://user-images.githubusercontent.com/77704356/154447902-f25d8f3d-3e5b-43b7-9a6b-448f679b37d4.png)
+
