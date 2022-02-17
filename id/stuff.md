@@ -12,7 +12,7 @@
 2. Pastikan akun GitHub sudah terhubung dengan email sekolah [Cek Disini](https://github.com/settings/emails)
 ![image](https://user-images.githubusercontent.com/77704356/154437933-4d4d1d74-a429-4035-870f-a760aa7bee38.png)
 
-3. Klik link berikut https://education.github.com/pack/join
+3. Klik link berikut [https://education.github.com/pack/join](https://education.github.com/pack/join)
 ![image](https://user-images.githubusercontent.com/77704356/154438800-a7301ccf-c8be-4183-8edf-b864a8b6c29c.png)
 
 4. Foto kartu pelajar (foto belakang kartu jika tidak ada tanggal di depan kartu)
