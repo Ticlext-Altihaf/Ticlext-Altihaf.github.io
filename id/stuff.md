@@ -16,30 +16,6 @@
 
 # .me Domain 1 Tahun
 
-1. Siapkan akun GitHub, email sekolah dan perangkat yang memiliki kamera.
-2. Pastikan akun GitHub sudah terhubung dengan email sekolah [Cek Disini](https://github.com/settings/emails)
-![image](https://user-images.githubusercontent.com/77704356/154437933-4d4d1d74-a429-4035-870f-a760aa7bee38.png)
-
-3. Klik link berikut [https://education.github.com/pack/join](https://education.github.com/pack/join)
-![image](https://user-images.githubusercontent.com/77704356/154438800-a7301ccf-c8be-4183-8edf-b864a8b6c29c.png)
-
-4. Foto kartu pelajar (foto belakang kartu jika tidak ada tanggal di depan kartu)
-![image](https://user-images.githubusercontent.com/77704356/154438988-451d0e43-545d-4c0d-93b2-031344eb3bed.png)
-
-5. Submit dan tunggu
-
-6. Jika berhasil klik link berikut [https://education.github.com/pack/offers](https://education.github.com/pack/offers)
-7. Cari Namcheap dan klik link berikut\
-![image](https://user-images.githubusercontent.com/77704356/154447448-b0a95409-4c5b-4b79-bb9d-79e9b987f5d5.png)
-8. Ketik nama domain yang kalian inginkan.
-9. Klik Add\
-![image](https://user-images.githubusercontent.com/77704356/154447730-1628b4ad-4ff0-40a2-9b6d-ea83e640fcc1.png)
-11. Ceklis GitHub pages dan click finish up
-![image](https://user-images.githubusercontent.com/77704356/154447902-f25d8f3d-3e5b-43b7-9a6b-448f679b37d4.png)
-12. Cek email untuk verifikasi dan klik link yang dikirim
-13. Akan ada pemberitahuan email terverifikasi, jika belum memiliki akun namecheap klik register.
-14. Setelah login/daftar ada tombol finish up, tekan tombol dan selesai.
-
 [Namcheap-Tutorial](https://www.namecheap.com/support/knowledgebase/article.aspx/9687/35/how-to-register-a-domain-via-our-educational-promotion-at-ncme/)
  
 
