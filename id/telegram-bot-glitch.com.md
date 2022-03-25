@@ -80,3 +80,4 @@ bot.on('message', (msg) => {
   bot.sendMessage(chatId, 'Pesan diterima: ' + JSON.stringify(msg));
 });
 ```
+- Catatan: Simpan token di Environment/ENV lalu akses melalui `process.ENV`
