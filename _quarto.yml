@@ -2,9 +2,9 @@ project:
   type: website
 
 website:
-  description: "A blog built with Quarto"
-  site-url: https://your-website-url.example.com # you must change this appropriately for RSS feeds to work properly
-  title: "ticlext-altihaf.github.io"
+  description: "Publications and notes"
+  site-url: https://ticlext.top # you must change this appropriately for RSS feeds to work properly
+  title: "Ticlext Altihaf"
   navbar:
     right:
       - about.qmd
