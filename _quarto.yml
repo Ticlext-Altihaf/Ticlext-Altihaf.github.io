@@ -12,6 +12,11 @@ website:
         href: https://github.com/Ticlext-Altihaf
       - icon: linkedin
         href: https://www.linkedin.com/in/yusuf-sekhan-althaf/
+
+
+author:
+  name: "Y Sekhan Althaf"
+  url: "https://ticlext.top"
   
 format:
   html:
