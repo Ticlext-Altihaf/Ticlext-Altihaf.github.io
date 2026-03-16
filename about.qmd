@@ -1,18 +1,16 @@
 ---
 title: "About"
-image: profile.jpg
+image: https://avatars.githubusercontent.com/u/77704356?v=4
 about:
   template: jolla
   links:
-    - icon: bluesky
-      text: Bluesky
-      href: https://bsky.app/
+
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://linkedin.com/in/yusuf-sekhan-althaf/
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/Ticlext-Altihaf
 
 ---
 

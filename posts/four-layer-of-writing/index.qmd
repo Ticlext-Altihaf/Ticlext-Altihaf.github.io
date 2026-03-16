@@ -1,0 +1,52 @@
+---
+title: "Four Layers of Writing"
+description: "Exploring the transition from personal thinking to public research."
+author: "Y Sekhan Althaf"
+date: "2026-03-15"
+categories: [society]
+tags: [tradeoffs, legibility]
+format:
+  html:
+    toc: true
+---
+
+## 1. Personal Writing - Thinking Space
+This is writing purely for oneself. 
+
+Its purpose is to organize thoughts, test ideas, and explore hypotheses. Because the audience is only the author, the writing can be blunt, incomplete, and experimental. 
+
+Clarity of thinking matters more than polish.
+
+## 2. Public Essays - Durable Ideas
+Writing intended for a personal website or blog needs a higher level of scrutiny. 
+
+The goal is not just expression but durability. A good public essay should remain understandable even years later. One useful pattern is:
+
+> **Timeless pattern + Point-in-time example**
+
+The example may age, but the underlying pattern should remain meaningful.
+
+## 3. Academic Writing - Verified Knowledge
+Academic writing raises the bar even further, not all academic writing creates new knowledge; some synthesizes or reviews existing work.
+
+Claims must be supported by evidence, citations, and methodology. The tone becomes more precise and disciplined, often at the cost of readability. 
+
+Its primary purpose is not persuasion or storytelling, but verification and traceability; consequently, it lacks the narrative appeal found in more popular writing for general audiences.
+
+## 4. Research Papers - Knowledge Creation
+Research papers aim to contribute new knowledge. 
+
+This requires more than good writing. It requires a clear question, a method of investigation, and evidence that supports a new insight or framework. 
+
+For many writers, reaching this level requires learning the craft of research itself.
+
+---
+
+::: {.callout-note}
+These categories represent different purposes of writing rather than a strict hierarchy of quality.
+:::
+
+---
+
+### Updates
+* **2026-03-15:** Initial publication and Quarto compliance formatting applied.

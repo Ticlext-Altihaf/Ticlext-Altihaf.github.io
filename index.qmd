@@ -1,5 +1,5 @@
 ---
-title: "ticlext-altihaf.github.io"
+title: ""
 listing:
   contents: posts
   feed: true
