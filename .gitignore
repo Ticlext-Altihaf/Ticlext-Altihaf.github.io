@@ -3,3 +3,7 @@
 
 **/*.quarto_ipynb
 /internal/
+.vscode
+.DS_Store
+.idea
+.roomodes

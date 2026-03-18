@@ -1,6 +1,9 @@
 project:
   type: website
-
+  render:
+    - "*.qmd"
+    - "!internal/"
+    
 website:
   description: "Publications and notes"
   site-url: https://ticlext.top # you must change this appropriately for RSS feeds to work properly
@@ -16,7 +19,7 @@ website:
 
 author:
   name: "Y Sekhan Althaf"
-  url: "/about.html"
+  url: "/author.html"
   
 format:
   html:

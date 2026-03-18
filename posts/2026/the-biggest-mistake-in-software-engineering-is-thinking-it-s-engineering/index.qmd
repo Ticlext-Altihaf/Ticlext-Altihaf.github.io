@@ -1,0 +1,207 @@
+---
+title: "The Biggest Mistake in Software Engineering Is Thinking It’s Engineering"
+description: "Why Software Engineering is not engineering in the traditional sense"
+author: "Y Sekhan Althaf"
+date: 2026-03-20
+categories: [engineering, systems]
+tags: [complexity, failure-modes, risk]
+bibliography: references.bib
+format:
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+## A Bridge Cannot Become a Submarine
+
+A bridge cannot suddenly become a submarine. It can collapse, it can bend, it can fail, but it cannot change its nature overnight.
+
+Software can.
+
+A system that was safe yesterday can become vulnerable today, without a single line of code changing. The Log4Shell vulnerability is a clear example. The code did not change, but newly understood interactions made previously latent behavior exploitable.
+
+And yet, we continue to treat software as if it behaves like traditional engineering.
+
+## We Plan Software Like We Plan Construction
+
+Define the requirements.  
+Estimate the work, timelines, and budget.  
+Build it step by step.  
+
+This works when the problem is stable.
+
+But software rarely is.
+
+A startup pivots.  
+A stakeholder changes direction.  
+A new constraint appears halfway through.  
+
+What looked like a plan turns into a moving target.  
+
+And by the time you notice, the original plan is still being followed,  
+but it no longer matches reality.  
+
+This mismatch is not accidental. It comes from the model we are using.
+
+
+## The Inherited Model
+
+Software engineering began by borrowing the language of construction.
+
+This was not an accident. In 1968, the NATO conference framed the "software crisis" as an engineering problem [@nato1968]. The solution was to make software more like civil engineering: structured, predictable, and controllable.
+
+It was legible.  
+It was reassuring.  
+It was also wrong.  
+
+
+## Why Engineering Works
+
+Civil engineering works because it operates within relatively stable constraints. Materials do not change. Physics does not change. Failure modes are bounded, even though modern engineering disciplines account for uncertainty, safety margins, and dynamic conditions.
+
+Steel does not suddenly become flammable and burst into flame because a chemist just published a new paper.
+
+An engineer calculates pressure drops using the Darcy-Weisbach equation because the viscosity of gas and the friction of steel are physical constants. They do not change because a stakeholder "changed their mind."
+
+Trying to move a bridge that partially built because a stakeholder doesn't like the location is absurd, physics don't negotiate with people.
+
+## Where the Analogy Breaks
+
+This model works because the system is stable. Software is not.
+
+Software does not behave like a constructed artifact. It behaves more like a living system, one that evolves, adapts, and reacts to interpretation.
+
+## Software Changes Without Changing
+
+The Log4Shell vulnerability [-@mitre2021log4j, CVE-2021-44228] did not require new code. It required new understanding. The system changed because the interpretation changed.
+
+## Software Is Constrained by People
+
+Software is not constrained by materials. It is constrained by people, incentives, interpretation, and context.
+
+The very act of writing software changes how stakeholders understand the system. That understanding feeds back into new requirements, which then reshape the system itself. The system evolves not just because code changes, but because perception changes.
+
+At its foundation, software is built on logic gates and electrons, but in practice the dominant constraints are social rather than physical. It is shaped by human interpretation layered on top of those abstractions.
+
+There are exceptions. Low level hardware systems scale predictably. Machine to machine systems with minimal human interaction can behave more like traditional engineering. Safety critical systems and formal methods also approach software with engineering rigor. But most software systems do not live in that world.
+
+Because most software work is invisible, changing something might be effortless or it might be extremely complicated while looking deceptively simple. The surface gives no reliable indication of the underlying complexity.
+
+Requirements shift.
+
+Users behave unpredictably.
+
+Organizations change direction.
+
+The system evolves, even if the code does not.
+
+## Software Is Adversarial
+
+Software is not just used. It is attacked.
+
+A bridge or a skyscraper does not suddenly have a zero day exploit. It does not need to defend itself because some bored teenager decided to interact with it in a creative way.
+
+Software lives in an environment where intelligent actors actively try to break it, misuse it, and exploit it. Its behavior is shaped not only by intended use, but by adversarial interaction.
+
+## Novelty Is the Default
+
+In civil engineering, replication cost is comparable to build cost. In software, replication cost is near zero.
+
+This makes novelty the default. Most meaningful systems are locally unique.
+
+There are limits to this. In highly repetitive domains such as agency work, or small scale and well bounded systems, patterns stabilize and estimation becomes easier. But these are not the systems where most complexity emerges.
+
+## The Theoretical Limit
+
+This is not just a practical problem. It is a fundamental limitation of computation itself.
+
+Rice’s Theorem shows that any non trivial property of program behavior is undecidable in general [@rice1953classes]. In simpler terms, in the general case, we cannot fully determine what a program will or will not do.
+
+We can test. We can approximate. But we cannot prove behavior at scale cheaply.
+
+We cannot prove that a WordPress site will never become a gambling redirector on a random Tuesday.
+
+## The Empirical Proof
+
+The seL4 microkernel is one of the few formally verified systems. It required more than 20 person years to verify roughly 9,000 lines of code [@klein2009sel4]. Proof to code ratios reach 10:1 or even 20:1 [@klein2014comprehensive].
+
+If this is the cost of certainty for 9,000 lines, what does that imply for systems with millions?
+
+We do not build software like bridges. We cannot afford to.
+
+## What Follows from the Wrong Model
+
+When we apply a construction model to a living system, we get predictable failures.
+
+### Estimation Becomes Fiction
+
+Estimation is not prediction. It is coordination.
+
+Deadlines are constraints applied to engineering, not outputs derived from it.
+
+For a deeper perspective, see Sean Goedecke’s discussion on estimation [@goedecke2026estimate].
+
+### Rewrites Behave Like Migrations
+
+Rewriting a large system is like relocating a capital city. The old system does not disappear. It persists. Clients resist migration. Partial adoption becomes the norm.
+
+### Security Cannot Be Proven Upfront
+
+Security is not a property you prove once. It is a condition you continuously defend.
+
+Because the system is not static. It is alive.
+
+### Maintenance Is the System
+
+Software is not finished. It is continuously renegotiated with reality.
+
+## The Model That Already Works
+
+Site Reliability Engineering already assumes this reality.
+
+Blameless postmortems. Error budgets. Continuous adaptation.
+
+SRE, as practiced at Google, explicitly assumes that failure is inevitable, not something that can be eliminated [@lunney2016postmortem].
+
+## A Better Model
+
+Software is a living, socio-technical system.
+
+It evolves. It adapts. It resists complete understanding.
+
+## What Needs to Change
+
+Management must manage uncertainty, not eliminate it.
+
+Engineering must design for change, not completion.
+
+Security must assume compromise, not perfection.
+
+Architecture must favor adaptability over optimality.
+
+## Closing
+
+Software engineering began by borrowing the language of construction.
+
+That made sense at the time.
+
+But software has evolved into something that behaves less like a building, and more like a living system.
+
+It adapts. It changes. It resists control.
+
+The problem is no longer the software.
+
+The problem is the model we are still using to understand it.
+
+---
+::: {.callout-note}
+
+This post argues that the traditional engineering analogy becomes misleading as software systems grow in scale, interconnectedness, and exposure to human and adversarial interaction.
+
+It does not claim that all software behaves this way equally. In constrained domains such as embedded systems, safety-critical systems, or highly repetitive workloads, engineering-style predictability remains both possible and appropriate.
+
+The point is not that software shares nothing with engineering, but that the dominant constraints shift. At scale, software is shaped less by physical limits and more by human interpretation, coordination, and evolving context.
+
+The “living system” framing is not literal. It is a model chosen because it better explains and predicts the behavior of modern software systems than the construction metaphor it replaces.
+
+:::

@@ -1,0 +1,87 @@
+@online{goedecke2026estimate,
+  author = {Sean Goedecke},
+  title = {How I estimate work as a staff software engineer},
+  date = {2026-01-24},
+  url = {https://www.seangoedecke.com/how-i-estimate-work/},
+  urldate = {2026-03-17},
+  keywords = {tech companies, how to}
+}
+
+@techreport{nato1968,
+  author      = {Naur, Peter and Randell, Brian},
+  title       = {Software Engineering: Report of a conference sponsored by the NATO Science Committee},
+  institution = {NATO Scientific Affairs Division},
+  year        = {1968},
+  address     = {Brussels, Belgium}
+}
+
+@article{rice1953classes,
+  title={Classes of recursively enumerable sets and their decision problems},
+  author={Rice, Henry Gordon},
+  journal={Transactions of the American Mathematical Society},
+  volume={74},
+  number={2},
+  pages={358--366},
+  year={1953},
+  publisher={JSTOR}
+}
+
+
+@misc{mitre2021log4j,
+  author       = {{MITRE Corporation}},
+  title        = {{CVE-2021-44228: Apache Log4j2 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints}},
+  year         = {2021},
+  howpublished = {\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-44228}},
+  note         = {Accessed: 2026-03-17}
+}
+
+
+
+@article{klein2014comprehensive,
+author = {Klein, Gerwin and Andronick, June and Elphinstone, Kevin and Murray, Toby and Sewell, Thomas and Kolanski, Rafal and Heiser, Gernot},
+title = {Comprehensive formal verification of an OS microkernel},
+year = {2014},
+issue_date = {February 2014},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {32},
+number = {1},
+issn = {0734-2071},
+url = {https://doi.org/10.1145/2560537},
+doi = {10.1145/2560537},
+abstract = {We present an in-depth coverage of the comprehensive machine-checked formal verification of seL4, a general-purpose operating system microkernel.We discuss the kernel design we used to make its verification tractable. We then describe the functional correctness proof of the kernel's C implementation and we cover further steps that transform this result into a comprehensive formal verification of the kernel: a formally verified IPC fastpath, a proof that the binary code of the kernel correctly implements the C semantics, a proof of correct access-control enforcement, a proof of information-flow noninterference, a sound worst-case execution time analysis of the binary, and an automatic initialiser for user-level systems that connects kernel-level access-control enforcement with reasoning about system behaviour. We summarise these results and show how they integrate to form a coherent overall analysis, backed by machine-checked, end-to-end theorems.The seL4 microkernel is currently not just the only general-purpose operating system kernel that is fully formally verified to this degree. It is also the only example of formal proof of this scale that is kept current as the requirements, design and implementation of the system evolve over almost a decade. We report on our experience in maintaining this evolving formally verified code base.},
+journal = {ACM Trans. Comput. Syst.},
+month = feb,
+articleno = {2},
+numpages = {70},
+keywords = {Isabelle/HOL, L4, microkernel, operating systems, seL4}
+}
+
+@inproceedings{klein2009sel4,
+author = {Klein, Gerwin and Elphinstone, Kevin and Heiser, Gernot and Andronick, June and Cock, David and Derrin, Philip and Elkaduwe, Dhammika and Engelhardt, Kai and Kolanski, Rafal and Norrish, Michael and Sewell, Thomas and Tuch, Harvey and Winwood, Simon},
+title = {seL4: formal verification of an OS kernel},
+year = {2009},
+isbn = {9781605587523},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1629575.1629596},
+doi = {10.1145/1629575.1629596},
+abstract = {Complete formal verification is the only known way to guarantee that a system is free of programming errors.We present our experience in performing the formal, machine-checked verification of the seL4 microkernel from an abstract specification down to its C implementation. We assume correctness of compiler, assembly code, and hardware, and we used a unique design approach that fuses formal and operating systems techniques. To our knowledge, this is the first formal proof of functional correctness of a complete, general-purpose operating-system kernel. Functional correctness means here that the implementation always strictly follows our high-level abstract specification of kernel behaviour. This encompasses traditional design and implementation safety properties such as the kernel will never crash, and it will never perform an unsafe operation. It also proves much more: we can predict precisely how the kernel will behave in every possible situation.seL4, a third-generation microkernel of L4 provenance, comprises 8,700 lines of C code and 600 lines of assembler. Its performance is comparable to other high-performance L4 kernels.},
+booktitle = {Proceedings of the ACM SIGOPS 22nd Symposium on Operating Systems Principles},
+pages = {207–220},
+numpages = {14},
+keywords = {sel4, microkernel, l4, isabelle/hol},
+location = {Big Sky, Montana, USA},
+series = {SOSP '09}
+}
+
+@incollection{lunney2016postmortem,
+  author    = {John Lunney and Sue Lueder},
+  title     = {Postmortem Culture: Learning from Failure},
+  booktitle = {Site Reliability Engineering: How Google runs production systems},
+  editor    = {Gary O’Connor},
+  chapter   = {15},
+  publisher = {O'Reilly Media},
+  year      = {2016},
+  url       = {https://sre.google/sre-book/postmortem-culture/}
+}

@@ -1,0 +1,22 @@
+---
+title: "Ticlext Altihaf"
+image: https://avatars.githubusercontent.com/u/77704356?v=4
+about:
+  template: jolla
+  links:
+
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/yusuf-sekhan-althaf/
+    - icon: github
+      text: Github
+      href: https://github.com/Ticlext-Altihaf
+    - icon: envelope
+      text: yusufsekhanalthaf@gmail.com
+      href: mailto:yusufsekhanalthaf@gmail.com
+
+---
+
+Principal software engineer writing about systems, incentives, and complexity across domains.
+
+Currently working on enterprise software systems.

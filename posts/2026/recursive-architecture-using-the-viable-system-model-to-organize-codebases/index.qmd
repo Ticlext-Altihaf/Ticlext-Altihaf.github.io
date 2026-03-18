@@ -1,0 +1,261 @@
+---
+title: "Recursive Architecture: Using the Viable System Model to Organize Codebases"
+description: "If every small change in your codebase breaks something else, the problem may not be complexity."
+author: "Y Sekhan Althaf"
+date: 2026-03-18
+categories: [engineering, systems]
+tags: [complexity, coordination, tradeoffs, failure-modes]
+bibliography: references.bib
+format:
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+
+## 1. The Problem: Codebase Entropy
+
+Large software systems rarely collapse overnight.  
+Instead, they slowly decay.
+
+At first everything feels manageable.  
+A feature here, a module there. The architecture still makes sense.
+
+Eventually, the symptoms become familiar:
+
+* changing one feature unexpectedly breaks another
+* developers must jump across multiple folders
+* code ownership becomes unclear, developers step on each other's work
+* modules that were once separate slowly become tangled together
+* regressions appear because dependencies were not initially obvious
+
+The system didn't become complex overnight.
+
+It simply accumulated **poorly organized complexity**.
+
+A natural question then arises:
+
+> *How can complex systems continue to function even when no single person fully understands the entire system?*
+
+To understand this, we can examine how complexity is organized in many natural and social systems.
+
+
+
+## 2. The Intuition Behind the Viable System Model
+
+Complex systems remain manageable because they are organized **recursively**.
+
+Consider a few examples:
+
+* A military squad does not need to understand the entire army.
+* A neighborhood does not manage the entire city.
+* A single biological cell does not control the entire organism.
+* A general defines objectives and strategy, but does not decide every action taken by individual soldiers.
+
+Instead, systems are structured in layers:
+
+* cells → tissues → organs → organism
+* neighborhood → district → city → province
+* squad → platoon → company → battalion → regiment → brigade → division → corps → army
+
+::: {.callout-note}
+This principle applies regardless of whether the organization is hierarchical or flat the key is that each level possesses appropriate autonomy within its scope.
+:::
+
+Each level is **autonomous enough to function locally** while still participating in a larger structure.
+
+This principle is formalized in the **Viable System Model (VSM)**, a cybernetic model describing how complex systems remain stable and adaptable by managing complexity.
+
+Although not originally designed for software systems, the model provides a useful lens for thinking about software architecture.
+
+::: {.callout-note collapse="true"}
+## Theoretical Background
+
+Stafford Beer, the originator of the VSM, posited that "every system" consists of three main interacting components: Management, Operation, and Environment [@beer1979heart, cited in @kandjani2012evolution]. These components interact through "variety attenuators" and "variety amplifiers" to maintain dynamic stability [@beer1979heart].
+
+Building on this, [@10.1108/03684920610675012] elaborates on the structural requirements for viability, stating: "A social system is viable if, and only if, its structure fulfils a number of requirements, which the theory specifies. Concretely, according to the model, a viable organization must dispose of five managerial subsystems and their interrelationships, as set forth by the theory" [@10.1108/03684920610675012]. Crucially, this structure is "recursive: also subsystems (e.g. divisions) and super systems (e.g. a holding) should be structured in accordance with the same principles" [@10.1108/03684920610675012].
+:::
+
+
+The key insight here is **recursive organization**: a viable system is composed of smaller viable systems.
+
+
+
+## 3. Mapping VSM to Software Architecture
+
+Software systems can be organized using a similar recursive structure.
+
+For example:
+```text
+Application
+├ Domain / Bounded Context
+│ ├ Module
+│ │ ├ Feature
+│ │ │ ├ Function
+```
+
+Each level should remain understandable without requiring full knowledge of the entire system it belongs to.
+
+In this structure, each level behaves as a **viable subsystem within a larger system**.
+
+Modules manage their own internal logic.
+Domains coordinate multiple modules.
+The application integrates multiple domains.
+
+This recursive structure allows complexity to grow without making the entire system unmanageable.
+
+
+
+## 4. Relationship with Domain-Driven Design
+
+Domain-Driven Design (DDD) [@evans2003ddd; @evans2015dddref] already emphasizes several key ideas:
+
+* bounded contexts
+* domain separation
+* ubiquitous language
+
+DDD primarily focuses on **semantic boundaries**, defining where concepts and responsibilities belong within the domain.
+
+The Viable System Model, however, focuses on something slightly different: **system viability and recursive organization**.
+
+In other words:
+
+* **DDD answers:** Where should boundaries exist?
+* **VSM answers:** How should systems evolve once those boundaries exist?
+
+Because of this, the two approaches naturally complement each other.
+
+
+
+## 5. Connection with SOLID Principles
+
+The SOLID principles operate at a more local level, helping to maintain clarity and stability within individual components.
+
+A rough analogy with VSM concepts might look like this:
+
+| SOLID Principle       | Interpretation in VSM                        |
+| --------------------- | -------------------------------------------- |
+| Single Responsibility | Clear operational unit                       |
+| Open / Closed         | Ability to evolve without breaking structure |
+| Liskov Substitution   | Stable interfaces                            |
+| Interface Segregation | Minimal coupling                             |
+| Dependency Inversion  | Coordination through abstraction             |
+
+SOLID helps ensure **micro-level maintainability**, while VSM explains how these components organize into a **coherent macro-level system**.
+
+
+
+## 6. The Evolution of Features
+
+What started as a simple feature gradually becomes a complex subsystem.
+
+In many systems, this transition happens gradually and almost invisibly until the original architectural boundary becomes insufficient.
+
+A typical evolution might look like this:
+
+
+*   **Stage 1**: A simple CRUD feature.
+*   **Stage 2**: Business rules begin to appear.
+*   **Stage 3**: Integration with other modules becomes necessary.
+*   **Stage 4**: The feature grows into a domain subsystem.
+
+
+
+For example, in an HR system, the "Attendance" feature might evolve as follows:
+
+```
+→ simple check-in with file upload and geolocation
+→ supervisor and management verification
+→ shift management integration
+→ payroll integration
+→ labor law compliance (customizable per country)
+→ union rules
+→ analytics and reporting
+```
+
+This evolution can eventually lead to a structure like:
+```
+
+HRIS Application
+│
+├─ Employee Self Service Domain
+│  │
+│  ├─ Attendance Module
+│  │  │
+│  │  ├─ Check-in Feature
+│  │  │   └─ validateLocation()
+│  │  │
+│  │  ├─ Shift Management Feature
+│  │  │   └─ calculateShiftOverlap()
+│  │  │
+│  │  └─ Overtime Rules Feature
+│  │      └─ computeOvertimeHours()
+│  │
+│  └─ Leave Management Module
+│      ├─ Leave Request Feature
+│      └─ Leave Approval Feature
+│
+└─ Payroll Domain
+```
+
+What began as a simple feature gradually evolves into a **complex subsystem**.
+
+This is precisely why **recursive architecture matters**.
+
+When complexity grows, systems must introduce new structural boundaries to remain manageable.
+
+From my personal experience, attempting to handle complex requirements such as labor law compliance before the basic features or basic integration are stable rarely works well.
+The result is often busywork that delivers little real value in the real world.
+
+
+
+## 7. A Warning About Horizontal Explosion
+
+Many teams attempt to address complexity by adopting microservices.
+
+Contrary to popular belief, microservices are not primarily a technical solution for performance (though performance benefits can emerge) they are largely an **organizational solution**, enabling teams to work independently without impeding each other.
+
+This aligns with **Conway’s Law**, which states: "organizations which design systems... are constrained to produce designs which are copies of the communication structures of these organizations" [@conway1968, p. 31]. Thus, system architecture profoundly reflects the communication structure of the organization.
+
+
+The problem is not horizontal scaling itself, but that many systems scale **only horizontally**, creating more and more independent services.
+
+What is often missing is **higher-level coordination**.
+
+In terms of the Viable System Model, this means creating many operational units (S1) without building the necessary coordination structures (S2) or higher-level recursive systems to manage them.
+
+Healthy evolution requires both:
+
+* **horizontal decomposition** (separating components)
+* **vertical recursion** (introducing higher-level coordination)
+
+Without both, systems tend to drift toward fragmentation.
+
+::: {.callout-note }
+
+The definitions of horizontal and vertical here do not refer to the physical/performance-based layout of the system, but rather its logical structure.
+
+:::
+
+## 8. Conclusion
+
+Large software systems remain maintainable when their architecture reflects **recursive viable structures**.
+
+The Viable System Model provides a useful lens for organizing codebases and understanding how systems evolve as complexity grows.
+
+Good architectures are rarely created all at once.
+
+Instead, they evolve gradually, just like viable systems.
+
+Large software systems are, therefore, better understood as living structures that grow and reorganize over time.
+
+Think of enterprise software development as managing a city or gardening, rather than building a house or bridge.
+
+
+::: {.callout-note collapse="true" title="Too abstract?"}
+Some readers may find this discussion somewhat abstract. This is deliberate.
+
+The goal of this article is not to prescribe a rigid architecture, but to introduce a lens for thinking about how large systems remain viable as complexity grows.
+
+In future, I will explore more concrete examples of applying these ideas to real systems. In fact, the motivation for writing this series comes from my own struggles with managing complexity in large codebases.
+:::

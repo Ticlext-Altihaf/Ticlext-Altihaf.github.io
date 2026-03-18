@@ -1,17 +1,25 @@
 ---
-title: "About"
-image: https://avatars.githubusercontent.com/u/77704356?v=4
-about:
-  template: jolla
-  links:
-
-    - icon: linkedin
-      text: LinkedIn
-      href: https://linkedin.com/in/yusuf-sekhan-althaf/
-    - icon: github
-      text: Github
-      href: https://github.com/Ticlext-Altihaf
-
+title: About
 ---
 
-About this blog
+## What This Site Is
+
+This blog explores systems thinking across domains:
+software engineering, organizations, psychology, and society.
+
+Topics may range from software architecture to video game mechanics.
+The common thread is understanding incentives, coordination, and
+complexity in systems.
+
+## Perspective
+
+Most writing approaches problems from a systems perspective,
+focusing on structures, feedback loops, and emergent behavior.
+
+Similar patterns often appear in:
+
+- software systems
+- organizations
+- markets
+- social systems
+- games
