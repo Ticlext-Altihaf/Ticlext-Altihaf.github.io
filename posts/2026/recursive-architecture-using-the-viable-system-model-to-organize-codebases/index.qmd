@@ -104,6 +104,22 @@ The application integrates multiple domains.
 
 This recursive structure allows complexity to grow without making the entire system unmanageable.
 
+::: {.callout-note title="On Recursion vs Layering" collapse="true"}
+
+Not all layered systems are recursive in the same sense.
+
+The recursion described here applies to *viable systems* systems that can operate, adapt, and remain functional even when parts fail. Examples include organizations, biological systems, and well-designed software systems.
+
+This is different from execution layers such as the OSI model or the runtime stack (application → OS → CPU). These layers are structurally dependent: if a lower layer fails, everything above it stops functioning.
+
+A useful rule of thumb:
+
+- If removing one part causes total collapse, you are looking at an execution stack.
+- If removing one part causes degraded but continued operation, you are looking at a viable system.
+
+The recursive structure in this article refers to the latter.
+
+:::
 
 
 ## 4. Relationship with Domain-Driven Design
@@ -259,3 +275,10 @@ The goal of this article is not to prescribe a rigid architecture, but to introd
 
 In future, I will explore more concrete examples of applying these ideas to real systems. In fact, the motivation for writing this series comes from my own struggles with managing complexity in large codebases.
 :::
+
+
+---
+
+### Updates
+* **2026-03-19:** Added a callout note "On Recursion vs Layering"
+* **2026-03-18:** Initial publication and Quarto compliance formatting applied.
