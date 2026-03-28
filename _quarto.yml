@@ -8,6 +8,10 @@ website:
   description: "Publications and notes"
   site-url: https://ticlext.top # you must change this appropriately for RSS feeds to work properly
   title: "Ticlext Altihaf"
+  open-graph: true
+  twitter-card: true
+  
+  
   navbar:
     right:
       - about.qmd
