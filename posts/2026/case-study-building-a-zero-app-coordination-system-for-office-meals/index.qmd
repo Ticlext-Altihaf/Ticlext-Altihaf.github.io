@@ -1,0 +1,387 @@
+---
+title: "Case Study: a Zero-App Coordination System for Office Meals"
+description: "I didn’t fix people. I fixed the system and suddenly no one needed to talk anymore. A real-world coordination experiment."
+author: "Y Sekhan Althaf"
+date: "2026-04-27"
+categories: [society, systems]
+tags: [tradeoffs, legibility]
+format:
+  html:
+    toc: true
+---
+
+## Context
+
+We have a small ecosystem:
+
+* 3 companies (sister companies + holding)
+* ~24 people
+* Shared office space
+* Free lunch provided daily by the owner
+* Hybrid work (WFA/WFO)
+
+The core problem:
+
+> No predictability → chef doesn’t know how many people will eat → waste, shortage, confusion → people sometimes blame each other (including the chef)
+
+Important note:
+There was **no formal rule or policy** about food waste or attendance.
+Yet social tension still emerged.
+
+This was not a technical problem.
+It was a **coordination + social problem under uncertainty**.
+
+---
+
+## Before vs After
+
+### Before
+
+* Admin walking around office asking
+* “Who eating tomorrow?”
+* “Maybe 5–6? John and Doe?”
+* “Wait let me chat…”
+* …forgot
+
+### After
+
+* No discussion
+* No reminders
+* No coordination needed
+
+> The topic of “who is eating tomorrow” effectively disappeared.
+
+---
+
+## Phase 0 — Pre-System (6–7 months ago)
+
+Process:
+
+* People DM office admin
+* Admin forwards to chef
+
+Problems:
+
+* No visibility
+* No structure
+* High friction
+* Constant back-and-forth
+
+---
+
+## Phase 1 — WhatsApp Poll (First Intervention)
+
+At first a simple WhatsApp poll.
+
+
+No explanation.
+No rollout.
+
+Result:
+
+* People used it immediately
+
+Cons:
+
+* Poll gets buried quickly in chat
+* People forget to check
+
+Insight:
+
+> Lower friction beats formal process
+
+---
+
+## Phase 2 — HRIS / ERP Form (Formalization)
+
+Moved to ESS (HRIS mobile app).
+
+Pros:
+
+* Structured data
+
+Cons:
+
+* People forget
+* Access friction
+* Weekly rotating PIC assigned just to manage this
+
+Insight:
+
+> Formal systems increase correctness, but reduce usability
+
+---
+
+## Phase 3 — Partial Automation (Still Heavy)
+
+Automation added:
+
+* Daily triggers
+
+Improvements:
+
+* No more PIC
+
+Still broken:
+
+* People still lazy to open app
+* No shared truth + no follow-up → low compliance
+* Attendance still manual
+
+---
+
+## Phase 4 — WhatsApp + n8n + ERP (Breakthrough)
+
+Timeline:
+
+* Summary (group visibility) → Feb 3
+* WhatsApp broadcast → Apr 2
+
+Before April:
+
+* Hybrid (ESS + WhatsApp)
+
+After:
+
+* Fully WhatsApp-based interaction
+
+Result:
+
+> Instant adoption without training or socialization
+
+---
+
+## Phase 5 — Physical Verification (TV + Code)
+
+Added:
+
+* TV display
+* Rotating 3-digit code
+
+Result:
+
+* ~60–70% compliance
+* Emergent ritual: people start entering the code together while waiting for food
+
+Design decision:
+
+* No shaming
+* Only neutral display
+
+Reason:
+
+* Social psychology → avoid resistance
+
+---
+
+## Phase 6 — System Collapse (Unintentional Experiment)
+
+After long holiday:
+
+* System off
+* TV gone (It get repurposed by management)
+
+Result:
+
+* Chaos returns
+* People confused
+* Admin complains
+
+CEO asked to turn system back on.
+
+Insight:
+
+> The system was doing invisible coordination work
+
+---
+
+## Phase 7 — Reconstruction (Independent System)
+
+Removed:
+
+* TV dependency
+* HRIS dependency
+
+Final:
+
+* Pure WhatsApp + backend
+
+
+
+---
+
+## Final Architecture
+
+3 phases (grouped workflows):
+
+**Pre-Event**
+
+* 2 Days Before — Broadcast Registration
+* 1 Day Before — Summary
+* Registration Listener
+
+**During Event**
+
+* On The Day — Code Sender
+* Check-in Listener (validation + walk-in)
+
+**Post Event**
+
+* Cleanup (6 PM finalization)
+
+---
+
+## Key Properties
+
+### 1. Independence
+
+Each workflow:
+
+* self-contained
+* can fail independently
+
+### 2. Graceful Degradation
+
+* Registration fails → attendance still works
+* Attendance fails → registration still useful
+
+### 3. Emergent Behavior
+
+Example:
+
+* Cleanup at 18:00
+* Late check-in still allowed until 23:59
+
+No explicit design for this.
+
+---
+
+## Key Design Principles
+
+### 1. Stateless Core
+
+* Validate at the edge, duplicated form don't affect system
+
+### 2. Loose Coupling
+
+* No tight dependencies
+
+### 3. Late Validation
+
+* Accept → validate later
+
+### 4. Human-Compatible Interface
+
+* WhatsApp only
+
+### 5. Tiered Communication (Anti-Spam)
+
+* Minor action → emoji reaction
+* Important action → message
+* Repeat → reaction only
+
+### 6. Social Layer > Enforcement
+
+* No punishment
+* No rules
+
+---
+
+## Behavioral & Social Layer
+
+Relevant lenses (to be cited later):
+
+* **Nudge Theory** → reduce friction, guide behavior subtly
+* **Social Proof / Collectivism** → seeing others influences decision
+* **Tribal Coordination** → small group self-regulates
+* **Cognitive Load Reduction** → remove need to think/remember
+
+Important observation:
+
+> No rule was introduced.
+> Behavior changed anyway.
+
+---
+
+## Emergent Behaviors
+
+### 1. Self-Regulation (TV era)
+
+* People reminded each other
+
+### 2. Invisible Operation (current)
+
+* No discussion
+* Everyone still follows system
+
+### 3. Social Alignment
+
+* Summary (posted in shared WhatsApp group at 6 PM the day before) influences attendance
+* People sometimes change their decision after seeing friends attending, and register for the next day
+
+### 4. Soft Deadline
+
+* 18:00 → analytical truth
+* 23:59 → physical truth
+
+---
+
+## Outcomes
+
+### Observable
+
+* Registration → ~100% adoption
+* Code → improved after iteration
+
+### Not Quantified (but real)
+
+* Admin saves ~5–30 minutes daily
+* No more walking around asking people
+* No more group chat noise
+
+### System Quality
+
+* Low-code (n8n + ERP + WhatsApp)
+* Extremely maintainable and malleable
+
+---
+
+## What I Didn’t Do
+
+* No app
+* No onboarding
+* No presentation
+* No mandate
+* No change management
+* No strict security (low abuse surface)
+
+> Bottom-up adoption, not top-down enforcement
+
+---
+
+## What This System Is
+
+> A lightweight coordination infrastructure embedded in existing tools
+
+Simple interface.
+Complex backend.
+
+---
+
+## Hypothesis
+
+1. Coordination shifts from conversation to observation when shared truth is present.
+
+2. Communication is often a symptom of missing structure.
+
+## Key Insight
+
+> The system didn’t make people more disciplined.
+> It removed friction and made coordination obvious.
+
+## Final Reflection
+
+> When the system stopped → people noticed.
+> When it runs → no one talks about it.
+
+That is what good infrastructure feels like.
