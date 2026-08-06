@@ -1,0 +1,200 @@
+---
+title: "Interfaces Between Sofware Engineering and Operations"
+description: "."
+author: "Y Sekhan Althaf"
+date: "2026-08-06"
+categories: [society, systems]
+tags: [tradeoffs, legibility]
+format:
+  html:
+    toc: true
+---
+
+
+
+## The Problem
+
+As our organization grows beyond software development into serving multiple enterprise clients, we have discovered that delivering software is only one part of the system.
+
+The larger challenge is **operationalizing** that software.
+
+Our engineering organization was built primarily for development. However, our day-to-day work increasingly consists of implementation, support, client coordination, operational maintenance, and cross-functional communication.
+
+These responsibilities have very different incentives from software development.
+
+As a result, engineering is becoming the default destination for many operational problems that it is neither organized nor optimized to handle.
+
+---
+
+## Symptoms
+
+Several recurring patterns have emerged.
+
+### 1. Engineering receives vague requests
+
+Requests frequently arrive in forms such as:
+
+> "It doesn't work."
+
+> "Why is this missing?"
+
+> "Please check."
+
+These requests often lack sufficient information for engineering to begin investigation.
+
+Engineering cannot distinguish between:
+
+* user error,
+* configuration issue,
+* implementation issue,
+* documentation gap,
+* operational mistake,
+* actual software defect.
+
+The result is repeated clarification and context switching before any engineering work can begin.
+
+---
+
+### 2. Work enters Engineering through people instead of interfaces
+
+Many engineering requests arrive through:
+
+* personal chat
+* phone calls
+* informal conversations
+
+instead of shared organizational channels.
+
+This creates several problems:
+
+* requests become invisible to the organization
+* priorities are unclear
+* deadlines are not visible
+* ownership becomes ambiguous
+* engineering work depends on interpersonal relationships
+
+The organization becomes coupled to individuals rather than shared processes.
+
+---
+
+### 3. Engineers become arbiters instead of engineers
+
+When work exists only inside conversations, leadership must resolve questions such as:
+
+* Did the request exist?
+* Was it communicated?
+* Did someone ignore it?
+* Was it urgent?
+
+These are difficult interpersonal discussions because each person remembers different events and possesses different information.
+
+Instead of discussing the work, the organization discusses people.
+
+---
+
+### 4. Different functions optimize for different objectives
+
+Each function operates under different incentives.
+
+**Clients**
+
+* Solve today's operational problem.
+
+**Implementation / Account Management**
+
+* Maintain client satisfaction.
+* Keep projects moving.
+
+**Engineering**
+
+* Preserve focus.
+* Solve technical problems.
+* Maintain software quality.
+
+None of these objectives are inherently incorrect.
+
+However, direct communication without clear interfaces causes these differing incentives to create friction.
+
+---
+
+### 5. Information quality degrades between functions
+
+Business users describe symptoms.
+
+Engineers require observations.
+
+Support questions often become:
+
+> "Application doesn't work."
+
+rather than
+
+> Browser, user, timestamp, screenshot, reproduction steps, expected behavior, actual behavior.
+
+The problem is not technical capability.
+
+The problem is that engineering receives insufficient information to efficiently diagnose problems.
+
+---
+
+### 6. Operational work is coupled directly to Engineering
+
+Support, implementation, configuration, training, documentation, and product education are frequently routed directly to engineers.
+
+Many of these activities require technical knowledge but do not require software development.
+
+As engineering attention becomes fragmented, the cost is not merely the time spent answering questions but the loss of uninterrupted engineering work.
+
+---
+
+## Observations
+
+Several observations emerged during recent production incidents.
+
+A sporadic CSRF-related issue persisted for approximately eight months despite engineers and users working in the same office.
+
+The problem was not a lack of technical capability.
+
+Instead:
+
+* users described symptoms
+* engineers could not reliably reproduce the issue
+* communication gradually became interpersonal rather than investigative
+
+Once the discussion shifted toward technical observations rather than opinions, the issue was resolved quickly.
+
+This suggests that the bottleneck was organizational rather than purely technical.
+
+---
+
+## Root Cause Hypothesis
+
+The organization currently relies heavily on **person-to-person coordination**.
+
+As the number of products, clients, and teams grows, this approach scales poorly because:
+
+* communication becomes fragmented
+* priorities become invisible
+* organizational memory becomes localized
+* interpersonal conflicts become entangled with operational work
+
+The organization lacks explicit interfaces governing how work enters Engineering and how information moves between functions.
+
+---
+
+## Design Goal
+
+The objective is not to eliminate communication.
+
+The objective is to separate:
+
+* human relationships,
+* work authorization,
+* operational routing,
+* engineering execution.
+
+People should continue communicating freely.
+
+Engineering work, however, should enter through explicit organizational interfaces that preserve visibility, ownership, prioritization, and information quality.
+
+In other words, the organization should discuss work through shared artifacts rather than relying on interpersonal negotiation.
