@@ -27,8 +27,12 @@ author:
 format:
   html:
     theme:
-      - cosmo
-      - brand
+      light:
+        - cosmo
+        - brand
+      dark:
+        - darkly
+        - brand
     css: styles.css
 
 

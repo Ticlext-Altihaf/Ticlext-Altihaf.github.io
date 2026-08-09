@@ -1,1 +1,15 @@
 /* css styles */
+
+/* Smooth theme transitions */
+body {
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Dark theme toggler micro-interactions */
+.quarto-color-scheme-toggle {
+  transition: transform 0.2s ease-in-out;
+}
+
+.quarto-color-scheme-toggle:hover {
+  transform: scale(1.15);
+}
