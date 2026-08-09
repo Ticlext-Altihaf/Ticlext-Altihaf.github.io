@@ -1,0 +1,191 @@
+---
+title: "Treating Software Development Like Humanity's Scientific Knowledge Evolution"
+description: "What happens when the paradigm changes, not just the implementation?"
+author: "Y Sekhan Althaf"
+date: "2026-08-09"
+categories: [society, systems]
+tags: [tradeoffs, legibility]
+draft: true
+format:
+  html:
+    toc: true
+--- 
+
+# A Thought Experiment: Miasma Theory and Hospital Software
+
+What would it mean to update software when our understanding of reality changes?
+
+Imagine this, a hospital built around miasma theory. And the software models the disease as something caused by "bad air".
+
+Patients have properties related to exposure to contamianated air. Hospitals track ventilation. Disease-control rules operate on the assumption that illness propagates trough environmental corruption.
+
+Then germ theory arrives.
+
+Suddenly, the problem is no longer: 
+
+> How do we improve the hospital system? (better ventilation, cleaner air, better sewage)
+
+The problem is: 
+
+> How do we migrate the hospital system to model the new reality?
+  
+The old system wasn't merely implemented incorrectly, it was built on a completely different understanding of reality. And this is where I think software engineering has an interesting relationship with scientific knowledge.
+
+Programmer are very good at making explicit things or refactoring code. But much less explicit about changing the theories that our code embodies.
+
+
+::: {.callout-note collapse="true"}
+## Disclaimer of Scope
+
+The type of software I'm talking about is usually large scale software like simulation, or ERP systems.
+
+I don't really believe that software with discrete state can use this lens and analogy
+
+::: 
+
+# How Scientific Knowledge Evolves
+
+Science theory are not just papers, they're they're model of reality that is useful for engineer to predict, explain and control phenomenon, or sometimes descriptive enough to reason with.
+
+## Paradigm Shift Change the Model
+
+Miasma → Germ Theory
+Geogolgist thought Earth was static in early 20th century → Plate Tectonics
+Newtonian Mechanics → Relativity
+
+
+# Thought Experiment: What if Scientific Knowledge Stored as World Simulation in Executable?
+
+In theory software can be used to simulate the real world for many fields, physics to medicine.
+
+A software can simulate Newtonian Mechanics vs General Relativity, it would not care the difference and can still produce predictions based on the theory it embodies.
+
+TODO: make bullshit or rhetoric here
+
+## Entity Component System (ECS) as a Model for Executable Knowledge
+
+### Why ECS?
+
+Entity Component System (ECS) is a software architectural pattern that is used to model the real world in software.
+
+Entites are just ID, Components are just data, Systems are just logic.
+
+This separation of data and logic allows for a high degree of flexibility and extensibility.
+
+In scientific knowledge ECS can be used to put collections of many theories into a simulation software.
+
+### Example: Newtonian Mechanics
+
+```
+Entities:
+    Earth
+    Moon
+
+Components:
+    Mass
+    Position
+    Velocity
+
+Systems:
+    Gravity
+    Motion
+```
+
+and then you can put irrelevant or complementing theory in there without breaking other things
+
+### Example: Germ Theory + Newtonian Mechanics
+
+```
+Entities:
+    Person
+
+Components:
+    Mass
+    Position
+    Pathogens
+
+System:
+    Gravity
+    Motion
+    DiseaseSpread
+    
+
+```
+
+
+## The Problem: ECS Does Not Make Paradigm Shift First-Class
+
+Imagine you already have a working ECS for Miasma Theory and you want to change it to Germ Theory. You can't just change the model, you have to refactor the entire system and other system that depend on it.
+
+>Expand here
+
+How do you migrate data, behavior and meaning between incompatible ontologies?
+
+# Enterprise Software Has the Same Problem
+
+The theories are not in database schema, API, or pure technical stuff but rather in the business logic
+
+Imagine HRIS, SAP system where one person is one job position, but what if in the future we realize that one person can have many job positions?
+
+Or more easy example, a simulation software that based its logic on Newtonian Mechanics and we discover later there is general relativity.
+
+Now of course the software doesn't stop working just because we found new scientific model for its business logic.
+
+Most software is planned, with assumption of perfect world model or discrete requirements, refactoring doesn't really change the ontology, the underlying assumption remained the same, and rewriting is also often the case because we start with test case or requirements.
+
+But paradigm migration is different, its not entirely creating new distinct software in a sense, its like you realized the business and requiremets foundation is actually wrong or incomplete, but everything else still working
+
+
+# Food for thought: What if the theory building subject is not the business logic but rather the software itself?
+
+Something odd happen when the subject of science is the software itself or in this case cybersecurity. Zero day exploit is the result of our wrong assumption about how the software actually work, as strange as it sounds. The model of reality of how we see the software is not accurate enough and we someone found zero day, the actual code or machhine doesn't change but our model of reality changes and we found new way to break it.
+
+One of my personal favourite is Log4Shell, a latent feature of Java string interpolation and formatting in the logging library Log4j has existed for years without everyone knowing it would be a security vulnerability.
+
+# What would paradigm aware software engineering look like?
+
+Imagine you make HRIS today, well attendance is attendance, regulatory, union, or one person one position, then imagine someday there is country that don't follow the conventional labor law, where you can be in multiple company at once, how would you design around such uncertainty while making the software still work? that the problem I don't know fully to solve yet
+
+One of rather interesting idea in enterprise software, is seperating what rarely change with what change on each client, hence why HRIS implementation heavy because sometimes it does feel like developing a software for a client while standing on the shoulders of a giant which is the vanilla HRIS
+
+
+Or seperating what logical invariants from social construct which always change often, this turned out well, like in payroll, you don't hardcode taxation laws, it live on customization level not codebase level, because it can change depending on country or years
+
+## Techical Debt Perspective
+
+What if most technical debt is just the fundamental assumptions that you hold while designing the system is wrong or incomplete?
+
+Not merely:
+
+"The code is old."
+
+But:
+
+"The system contains accumulated assumptions about the world that we no longer believe."
+
+TODO: explore more on this
+
+
+# Toward a Theory of Software Evolution
+
+Disclaimer, computer are discrete machines, it can't invent new logic on its own. It only simulate or model the logic we put into it.
+
+but that lens start to fail when you designing deeply complex software especially when it interact with the real world like business software or when trying to add extendable modification to a simulation game
+
+## Architecture as Epistemology
+
+Architecture is a way to separate the theory that you believe in from the code that you write
+
+The goal is therefore not a perfect architecture but build a system that capable to survive imperfect understanding
+
+
+# Open Questions
+
+todo
+
+
+
+# Conclusion - Building Software That can Survive Being Wrong
+
+
+In the end, treating software engineering like scientific knowledge evolution doesn't mean we have to treat it like an exact science. It means we have to acknowledge that we're working with imperfect models of the world, and that those models will inevitably change over time while still being able to deliver values at present.
