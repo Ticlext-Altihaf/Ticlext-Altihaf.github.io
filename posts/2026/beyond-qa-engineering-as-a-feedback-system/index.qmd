@@ -1,0 +1,94 @@
+---
+title: "Beyond QA: Engineering as a Feedback System"
+description: "The moment an organization believes QA has certified the software against reality, it has confused verification of a model with verification of the world"
+author: "Althaf"
+date: "2026-08-19"
+categories: [engineering, systems]
+tags: [tradeoffs, legibility]
+draft: true
+format:
+  html:
+    toc: true
+--- 
+
+
+# The impossible standard
+
+You might think that "Why tolerate mistakes? If organizations are competent enough, they shouldn't happen." or Doctor can't make mistakes and should be criminalized when making mistakes.
+
+# Known mistakes vs unknown failures
+
+Distinguish:
+
+- ignorance of established knowledge
+- predictable engineering failure
+- probabilistic failure
+- genuinely unexpected behavior
+
+There is huge difference and yet visibly thin between someone who doesn't know that fire burns (ignorance), someone who don't know what happen if they mix something.
+
+# Experience doesn't create an oracle
+
+Experienced engineers have better priors.
+
+They recognize more failure modes.
+
+They prioritize risk better.
+
+
+
+# The world is not a test suite
+
+Tests answer:
+
+"Does the system behave correctly under the scenarios we have specified?"
+
+Reality asks:
+
+"What happens when the scenarios we didn't specify occur?"
+
+## QA is risk reduction, not reality control
+
+Some organizations treat QA as if it were a gatekeeper between software and reality.
+
+Engineering builds the system.
+QA verifies it.
+QA approves it.
+Therefore, production should behave correctly.
+
+This is an attractive model because it resembles manufacturing. A product passes inspection, so it is released.
+
+But software does not interact with reality that way.
+
+---
+
+Fuck organizations that treat QA as a control mechanism rather than a risk-reduction mechanism.
+
+That mindset turns QA into a ritual of certification: someone checked the boxes, therefore the system is safe. The organization starts optimizing for passing the gate rather than discovering where its model of reality is wrong.
+
+QA is valuable precisely because it reduces risk. But reduction is not elimination. A green test suite is evidence about the scenarios that were tested; it is not a certificate that reality has run out of ways to surprise us.
+
+# The organization needs sensors
+
+An organization without production feedback is like an organism with impaired senses:
+
+It doesn't necessarily become safer. It becomes less capable of discovering that its internal model is wrong.
+
+
+OTel → distributed causality
+Crash reporting → client failures
+Replay → user experience
+Metrics → population-level deviations
+Logs → local evidence
+Complaints → low-quality but valuable external signals
+
+And importantly:
+
+A user complaint is not a substitute for observability. It is evidence that your observability may have a blind spot.
+
+
+# The consequence: feedback becomes part of competence
+
+A competent engineer doesn't merely prevent known failures. They build systems that reveal when their assumptions about the system are wrong.
+
+The more complex the system, the less competent it is to rely on human prediction alone.
