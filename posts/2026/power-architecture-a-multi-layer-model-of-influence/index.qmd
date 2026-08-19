@@ -1,14 +1,23 @@
 ---
 title: "Power Architecture: A Multi-Layer Model of Influence"
-description: "A non-scalar framework explaining how power operates across force, information, and rules, showing why stronger actors can become irrelevant in complex systems."
+description: "Why would someone trust a piece of paper with ink, and why can an unarmed person remain untouchable?" 
 author: "Althaf"
 date: "2026-07-11"
 categories: [society, systems]
-tags: [tradeoffs, legibility]
+tags: [tradeoffs, legibility] 
 format:
   html:
     toc: true
 ---
+
+### Why?
+
+- Why would someone trust a piece of paper with ink?
+- Why can a country lose a war, sign a treaty under pressure, obey it for years, and then simply stop obeying it?
+- Why do some strong people refuse to attack an unarmed person?
+- Why do we work in a job we don't like when no one is forcing us?
+- Why can a community ignore their formal leader and continue their day-to-day?
+
 
 ### Disclaimer
 
@@ -17,6 +26,12 @@ This model uses a fantasy / entertainment setting (e.g., superpowers such as fir
 The purpose of this abstraction is to remove real-world noise and isolate fundamental interaction patterns.
 
 All examples should be interpreted as simplified representations of underlying system dynamics, not literal or real-world claims.
+
+---
+
+
+
+
 
 ---
 
@@ -230,3 +245,9 @@ Effects:
 Power is not about strength.
 
 **Power is the ability to influence outcomes by operating on dimensions of the system that are least constrained, least visible, and least adaptable by other agents.**
+
+---
+
+## Updates
+
+- **2026-08-19**: Added "Why?" section with motivating questions. Edited description to reflect hook. Grammar fixes throughout.
