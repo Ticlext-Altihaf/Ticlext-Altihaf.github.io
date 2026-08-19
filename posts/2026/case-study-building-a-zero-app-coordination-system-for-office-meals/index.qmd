@@ -1,7 +1,7 @@
 ---
 title: "Case Study: a Zero-App Coordination System for Office Meals"
 description: "I didn’t fix people. I fixed the system and suddenly no one needed to talk anymore. A real-world coordination experiment."
-author: "Y Sekhan Althaf"
+author: "Althaf"
 date: "2026-04-27"
 categories: [society, systems]
 tags: [tradeoffs, legibility]

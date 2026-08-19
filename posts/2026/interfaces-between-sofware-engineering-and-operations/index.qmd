@@ -1,7 +1,7 @@
 ---
 title: "Interfaces Between Sofware Engineering and Operations"
 description: "Your engineers aren't slow. They're drowning in work that was never theirs to begin with."
-author: "Y Sekhan Althaf"
+author: "Althaf"
 date: "2026-08-06"
 categories: [society, systems]
 tags: [tradeoffs, legibility]

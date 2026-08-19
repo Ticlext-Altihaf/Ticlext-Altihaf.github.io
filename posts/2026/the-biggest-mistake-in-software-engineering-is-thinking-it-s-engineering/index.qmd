@@ -1,7 +1,7 @@
 ---
 title: "The Biggest Mistake in Software Engineering Is Thinking It’s Engineering"
 description: "Why Software Engineering is not engineering in the traditional sense"
-author: "Y Sekhan Althaf"
+author: "Althaf"
 date: 2026-03-20
 categories: [engineering, systems]
 tags: [complexity, failure-modes, risk]

@@ -1,7 +1,7 @@
 ---
 title: "Power Architecture: A Multi-Layer Model of Influence"
 description: "A non-scalar framework explaining how power operates across force, information, and rules, showing why stronger actors can become irrelevant in complex systems."
-author: "Y Sekhan Althaf"
+author: "Althaf"
 date: "2026-07-11"
 categories: [society, systems]
 tags: [tradeoffs, legibility]

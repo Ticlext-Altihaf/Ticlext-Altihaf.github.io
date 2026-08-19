@@ -1,7 +1,7 @@
 ---
 title: "Recursive Architecture: Using the Viable System Model to Organize Codebases"
 description: "If every small change in your codebase breaks something else, the problem may not be complexity."
-author: "Y Sekhan Althaf"
+author: "Althaf"
 date: 2026-03-18
 categories: [engineering, systems]
 tags: [complexity, coordination, tradeoffs, failure-modes]
