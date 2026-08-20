@@ -70,20 +70,20 @@ Classical power classification typically uses linear ranking systems (e.g., S+, 
 
 This model rejects scalar ranking.
 
-Power is instead modeled as discrete tiers, distinguished not by magnitude but by *type of interaction with reality*. Superiority is not determined by magnitude, but by tier advantage.
+Power is instead modeled as discrete orthogonals, distinguished not by magnitude but by *type of interaction with reality*. Superiority is not determined by magnitude, but by orthogonal advantage.
 
 Implication:
-A higher-tier power does not overpower a lower-tier power—it renders it irrelevant.
+A higher-orthogonal power does not overpower a lower-orthogonal power—it renders it irrelevant.
 
-This creates inherently "unfair" interactions, where lower-tier capabilities fail regardless of scale.
+This creates inherently "unfair" interactions, where lower-orthogonal capabilities fail regardless of scale.
 
 ---
 
-## 4. Tiers of Power
+## 4. Orthogonals of Power
 
-Contrary to popular belief, power operates across three orthogonal tiers. Tiers describe *how* power is applied in interaction, moving from direct execution, to positional control, to control over the rules of the system itself.
+Contrary to popular belief, power operates across three orthogonals. Orthogonals describe *how* power is applied in interaction, moving from direct execution, to positional control, to control over the rules of the system itself.
 
-### Tier 1 — Force
+### Orthogonal 1 — Force
 
 Operate within rules to produce outcomes.
 
@@ -103,7 +103,7 @@ A single high-force entity (e.g., Superman-like) can be contained or constrained
 
 ---
 
-### Tier 2 — Information
+### Orthogonal 2 — Information
 
 Manipulate interaction conditions.
 
@@ -119,7 +119,7 @@ Failure mode:
 * loses advantage once its asymmetry becomes a **modelable pattern**
 
 Observation:
-Tier 2 often manifests as anomalous performance (e.g., consistently perfect outcomes such as "acing every exam").
+Orthogonal 2 often manifests as anomalous performance (e.g., consistently perfect outcomes such as "acing every exam").
 
 Such anomalies are powerful only under ambiguity.
 
@@ -130,11 +130,11 @@ Once the system becomes aware:
 * the anomaly is normalized or suppressed
 
 Result:
-Tier 2 power can degrade sharply and, in some cases, become less effective than Tier 1 due to overexposure and targeted countering.
+Orthogonal 2 power can degrade sharply and, in some cases, become less effective than Orthogonal 1 due to overexposure and targeted countering.
 
 ---
 
-### Tier 3 — Rules
+### Orthogonal 3 — Rules
 
 Modify rules governing outcomes.
 
@@ -152,16 +152,16 @@ Failure mode:
 
 ## 5. Dominance Principle
 
-Dominance is determined by tier advantage, not magnitude.
+Dominance is determined by orthogonal advantage, not magnitude.
 
 Refined Rule:
-Higher-tier power tends to invalidate lower-tier power **unless constrained by access, detection, or cost**.
+Higher-orthogonal power tends to invalidate lower-orthogonal power **unless constrained by access, detection, or cost**.
 
 Examples:
 
-* Invisibility (Tier 2) defeats fire breath (Tier 1)
-* Time rewind (Tier 3) defeats invisibility (Tier 2)
-* Time rewind (Tier 3) defeats fire breath (Tier 1)
+* Invisibility (Orthogonal 2) defeats fire breath (Orthogonal 1)
+* Time rewind (Orthogonal 3) defeats invisibility (Orthogonal 2)
+* Time rewind (Orthogonal 3) defeats fire breath (Orthogonal 1)
 
 ---
 
@@ -169,14 +169,14 @@ Examples:
 
 Define exposure E as how detectable a power is.
 
-Each tier responds differently:
+Each orthogonal responds differently:
 
-* Tier 1: low sensitivity to E
-* Tier 2: high sensitivity to E
-* Tier 3: low to moderate sensitivity to E
+* Orthogonal 1: low sensitivity to E
+* Orthogonal 2: high sensitivity to E
+* Orthogonal 3: low to moderate sensitivity to E
 
 Result:
-Tier 2 is most fragile under observation.
+Orthogonal 2 is most fragile under observation.
 
 ---
 
@@ -193,24 +193,24 @@ Principle:
 
 Effects:
 
-* Tier 1 → countered by scale
-* Tier 2 → countered by detection
-* Tier 3 → hard to counter, but destabilizes system
+* Orthogonal 1 → countered by scale
+* Orthogonal 2 → countered by detection
+* Orthogonal 3 → hard to counter, but destabilizes system
 
 ---
 
 
 ## 8. Strategic Implications
 
-* Tier 1 excels in direct conflict
-* Tier 2 excels in disruption and control
-* Tier 3 excels in shaping outcomes before conflict
+* Orthogonal 1 excels in direct conflict
+* Orthogonal 2 excels in disruption and control
+* Orthogonal 3 excels in shaping outcomes before conflict
 
 Optimal strategy:
 
-1. Use Tier 2 to destabilize
-2. Transition to Tier 3 to stabilize
-3. Avoid reliance on Tier 1
+1. Use Orthogonal 2 to destabilize
+2. Transition to Orthogonal 3 to stabilize
+3. Avoid reliance on Orthogonal 1
 
 ---
 
@@ -251,3 +251,4 @@ Power is not about strength.
 ## Updates
 
 - **2026-08-19**: Added "Why?" section with motivating questions. Edited description to reflect hook. Grammar fixes throughout.
+- **2026-08-20**: Replaced "Tier" terminology with "Orthogonal".
