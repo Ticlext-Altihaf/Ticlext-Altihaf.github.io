@@ -83,11 +83,19 @@ This creates inherently "unfair" interactions, where lower-orthogonal capabiliti
 
 Contrary to popular belief, power operates across three orthogonals. Orthogonals describe *how* power is applied in interaction, moving from direct execution, to positional control, to control over the rules of the system itself.
 
-Imagine that we currently playing a game e.g. chess. Power is simply how we win the game. But, there are multiple ways to win the game
+Imagine that we are currently playing a game—say, chess. Power is simply how we win the game. But there are multiple ways to win:
 
-1. I have stronger pawn: Conventionally
-2. I cheated: Manipulate perception
-3. I changed the game: Actually we play 3 dimensional chess
+I have stronger pawns: conventionally, I win by playing the game better.
+I cheated: I manipulate perception or violate the assumptions of the game.
+I changed the game: actually, we are playing three-dimensional chess.
+
+It is very difficult to realize this unless you're highly self-aware.
+
+It's a bit like trying to lucid dream. Not because we lack skill or aren't sharp enough—in fact, focusing too hard can easily lock you into the dream.
+
+Reading my essay about these orthogonals is easy. Applying them in real life is another story.
+
+Fish is the last creature to see water.
 
 ### Orthogonal 1 — Force
 
