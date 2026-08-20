@@ -86,7 +86,7 @@ Contrary to popular belief, power operates across three orthogonals. Orthogonals
 Imagine that we currently playing a game e.g. chess. Power is simply how we win the game. But, there are multiple ways to win the game
 
 1. I have stronger pawn: Conventionally
-2. I cheated: MManipulate perception
+2. I cheated: Manipulate perception
 3. I changed the game: Actually we play 3 dimensional chess
 
 ### Orthogonal 1 — Force
