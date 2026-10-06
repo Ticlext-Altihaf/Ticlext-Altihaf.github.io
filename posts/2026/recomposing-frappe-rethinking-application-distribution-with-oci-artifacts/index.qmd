@@ -1,0 +1,237 @@
+---
+title: "Recomposing Frappe (ERPNext): Rethinking Application Distribution with OCI Artifacts"
+description: "How immutable application artifacts can decouple Frappe application development from deployment composition—without modifying the Frappe framework."
+author: "Althaf"
+date: "2026-10-06"
+categories: [engineering, systems]
+tags: []
+draft: true
+format:
+  html:
+    toc: true
+--- 
+
+
+Frappe applications are developed independently, but their container distribution model is largely coupled.
+
+An application such as [HRMS](https://github.com/frappe/hrms) can be built and released from its own repository, yet its container build depends on the Frappe environment and other applications, for example [ERPNext](https://github.com/frappe/erpnext).
+
+An HRMS developer should be able to publish HRMS without rebuilding ERPNext, Frappe Framework, and the rest of the application's dependencies. At the same time, the operator should be able to select exact versions of independently published applications and compose them into a reproducible runtime.
+
+Okay, but that's really abstract.
+
+What are the practical pain points?
+
+If you're an operator of a Frappe environment and need dozens of applications in your hosting environment, the build time will make you insane. Especially if you have your own applications developed on top of it.
+
+Caching helps, but only to a point. It also eats a lot of storage when you have to maintain and rebuild large intermediate layers.
+
+Second, if you're the operator and you want another environment with a different set of applications, you're screwed to maintain multiple fat images.
+
+Now you have another long-running build pipeline to maintain.
+
+Personally, I waited **32m 47s** for a build with **15** applications. Depending on which application changed, you might be lucky or you might not. We deliberately put backend-only applications that don't need to build assets toward the end of the build order.
+
+Yes, it's a daisy chain.
+
+Illustrative example:
+
+```json
+[
+    {
+        "url": "https://github.com/frappe/erpnext",
+        "branch": "develop"
+    },
+    {
+        "url": "https://github.com/frappe/crm",
+        "branch": "develop"
+    }
+    // ... and so on
+]
+```
+
+What do we do?
+
+We optimize aggressively. We cache aggressively.
+
+It used to take an hour. Then half an hour.
+
+Originally, the image size was in the range of dozens of gigabytes. We eventually slashed the final image down to around 1 GB compressed, partly because we don't want Kubernetes spending forever downloading it.
+
+But then we need another set of environment.
+
+Would you maintain that build chain?
+
+Hell no.
+
+It's too much maintenance and makes iteration too time-consuming. That kills the feedback loop for operations people, and it also hurts developers trying to test their own applications in CI/CD.
+
+You might say:
+
+> "Why not use Bench?"
+
+First, it's stateful.
+
+Second, we're not sure about running a live Bench in Kubernetes. The official Frappe deployment model uses OCI images and Helm, so technically this is possible, but it doesn't give us the kind of immutable, reproducible environment we want.
+
+The last thing an ops person wants is another thing that can change at runtime.
+
+## So what is the proposed practical solution?
+
+The basic idea is to stop treating the entire Frappe environment as one artifact.
+
+Instead, treat each application as an independently published immutable artifact.
+
+```text
+                OCI Registry
+                     │
+       ┌─────────────┼─────────────┐
+       │             │             │
+       ▼             ▼             ▼
+   ERPNext@A      HRMS@B      CustomApp@C
+   immutable      immutable     immutable
+       │             │             │
+       └─────────────┼─────────────┘
+                     ▼
+             Deployment composition
+                     │
+              ┌──────┴──────┐
+              │             │
+        shared Python    read-only
+          runtime         app FS
+              │             │
+              └──────┬──────┘
+                     ▼
+               Frappe runtime
+```
+
+We take some inspiration from the game modding community.
+
+Imagine you have a base game and a bunch of mods. You don't need to rebuild the base game every time you change or add a mod.
+
+Now imagine having dozens, if not hundreds, of mods, and every time one mod changes you need to rebuild the entire game image.
+
+Even with caching, that sounds painful.
+
+It also creates another problem: the developer of one mod is now indirectly involved in the construction of the entire game environment.
+
+That is roughly the problem we're trying to remove from Frappe application distribution.
+
+## Don't change Frappe. Change how we host it.
+
+We try not to change the core framework or how it should work.
+
+That would be a headache.
+
+Instead, we started from first principles: what does Frappe actually need at runtime?
+
+At the bottom of it, we have a web server, workers, the Python environment, application source code, assets, and some generated deployment state.
+
+The runtime doesn't fundamentally care whether `/home/frappe/frappe-bench/apps/erpnext` came from a Git checkout, a Docker layer, or an OCI filesystem artifact.
+
+It just needs the application to exist there.
+
+`assets.json` and `apps.txt` are additional pieces of deployment state that we need to handle, but they are a much smaller problem than rebuilding the entire application environment.
+
+This led us to a much simpler idea:
+
+**What if the application itself is the artifact?**
+
+## How is this possible?
+
+The technical details are documented in [the experiment](https://github.com/natindonesia/frappe-framework-patch/issues/3).
+
+The important part is that Docker Compose can mount an OCI image as a filesystem source.
+
+[https://docs.docker.com/engine/storage/image-mounts/#mount-a-subpath-of-an-image](https://docs.docker.com/engine/storage/image-mounts/#mount-a-subpath-of-an-image)
+
+For example:
+
+```yaml
+services:
+  nginx:
+    image: composed-frappe-base:latest
+    entrypoint:
+      - /usr/local/bin/nginx-entrypoint.sh
+    environment:
+      BACKEND: web:8000
+      SOCKETIO: socketio:9000
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      FRAPPE_SITE_NAME_HEADER: ${SITE_NAME:-crm.localhost}
+    volumes:
+      - sites-data:/home/frappe/frappe-bench/sites:ro
+
+      # Serve the MERGED manifest (frappe base + every app snapshot),
+      # not the stale frappe-only copy the named volume self-seeded
+      # from the base image.
+      - type: image
+        source: composed-frappe-base:latest
+        target: /home/frappe/frappe-bench/sites/assets/assets.json
+        read_only: true
+        image:
+          subpath: opt/defaults/assets.json
+
+      - type: image
+        source: composed/erpnext:latest
+        target: /home/frappe/frappe-bench/sites/assets/erpnext
+        read_only: true
+        image:
+          subpath: assets
+
+      # ... and so on
+```
+
+The application filesystem is now an immutable OCI artifact.
+
+Frappe still sees:
+
+```text
+/home/frappe/frappe-bench/apps/erpnext
+```
+
+It doesn't need to know that the directory came from an OCI image.
+
+The same underlying idea can also be used with Kubernetes image volumes:
+
+[https://kubernetes.io/docs/tasks/configure-pod-container/image-volumes/](https://kubernetes.io/docs/tasks/configure-pod-container/image-volumes/)
+
+This was the goldmine.
+
+Once the filesystem composition primitive was available, the architecture became much simpler.
+
+We can have:
+
+```text
+Frappe runtime
+      +
+ERPNext artifact
+      +
+HRMS artifact
+      +
+our custom applications
+      ↓
+one composed runtime
+```
+
+The Python dependencies of the selected applications are resolved into the shared runtime environment, while the application source itself remains independently published and mounted read-only.
+
+The result is that changing one application does not inherently require rebuilding every other application.
+
+The application publication cycle and the deployment composition cycle become separate.
+
+And that is the part I find much more interesting than simply making the image smaller.
+
+The cost is that the deployment YAML gets messier.
+
+Honestly, that's a trade-off I'm willing to take.
+
+I'd rather have a somewhat ugly, explicit composition layer than another complicated centralized build pipeline that has to reconstruct the entire Frappe environment every time something changes, even a minor character change trigger rebuild.
+
+
+
+## So why this matter for engineering organization?
+
+1. The application teams own the artifact, allowing clear separation of concerns and responsibilities instead blaming on each other on why a build failed.
+2. Independent release candence instead of waiting on another app to finish their cycle so Platform/DevOps can finally deploy it
+3. Smaller blast radius for each artifact, runtime misconfiguration problem can be fixed by Platform/DevOps without rebuilding or republishing the applications artifacts themselves. 
+4. Faster feedback loop for Platform/DevOps, and also apps team

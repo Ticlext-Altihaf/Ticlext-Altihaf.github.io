@@ -1,0 +1,280 @@
+---
+title: "XXX"
+description: "XXX"
+author: "Althaf"
+date: "2026-09-04"
+categories: [engineering, systems]
+tags: []
+draft: true
+format:
+  html:
+    toc: true
+--- 
+
+
+
+
+I have a somewhat ambitious project: make a 15-year-old Python web framework significantly faster.
+No rewrite, Not replacing the ERP, Not migrate the application to another framework, not just incremental improvements.
+
+
+We make an app on top of Frappe framework and its rather basic but its somehow bogged down, Our application isn't particularly exotic or complicated like HRIS or ERP, it's mostly CRUD with mobile client
+
+
+
+The first thing I did was benchmark Gunicorn and current production setup.
+
+```bash
+ticlext@ALTHAX:/mnt/project-premium/hris/new-bench-2/apps/frappe$ ./perf.sh 
+
+== Boot gunicorn — CPU list 0-3, 2w x 4t, bind 0.0.0.0:0 ==
+
+== Wait gunicorn ready (site satwagia.fayolex.co.id.localhost, port 37249) ==
+  pid 1367800's current affinity list: 0-3
+  pid 1367815's current affinity list: 0-3
+  pid 1367816's current affinity list: 0-3
+
+== Baseline idle (before load) ==
+master=1367800 workers=1367815 1367816
+pid=1367815 rss_kb=107820 hwm_kb=107820 threads=3 ctx_vol=0 ctx_nonvol=0 fds=20
+pid=1367816 rss_kb=98928 hwm_kb=98928 threads=1 ctx_vol=0 ctx_nonvol=0 fds=16
+-- /dev/shm:
+tmpfs            20G  438M   20G   3% /dev/shm
+LISTEN 0      2048         0.0.0.0:37249      0.0.0.0:*    users:(("gunicorn",pid=1367816,fd=9),("gunicorn",pid=1367815,fd=9),("gunicorn",pid=1367800,fd=9))
+
+== Run adaptive k6 load (VUs up to 200, discovery=60s, stable hold=60s, seed=20) ==
+adaptive phase=0 mode=staircase vus=10 duration=10s
+adaptive result phase=0 mode=staircase vus=10 rps=173.195154 p95_ms=11.94 failed_pct=0.00
+adaptive phase=1 mode=staircase vus=15 duration=10s
+adaptive result phase=1 mode=staircase vus=15 rps=199.789983 p95_ms=13.43 failed_pct=0.00
+adaptive phase=2 mode=staircase vus=20 duration=10s
+adaptive result phase=2 mode=staircase vus=20 rps=202.943867 p95_ms=13.55 failed_pct=0.00
+adaptive phase=3 mode=binary vus=20 duration=10s
+adaptive result phase=3 mode=binary vus=20 rps=209.270494 p95_ms=16.67 failed_pct=0.00
+adaptive phase=4 mode=binary vus=17 duration=10s
+adaptive result phase=4 mode=binary vus=17 rps=199.314386 p95_ms=14.44 failed_pct=0.00
+adaptive phase=5 mode=binary vus=16 duration=10s
+adaptive result phase=5 mode=binary vus=16 rps=187.52313 p95_ms=13.25 failed_pct=0.00
+adaptive hold vus=15 duration=60s
+
+== Post-load snapshot ==
+pid=1367815 rss_kb=133808 hwm_kb=133808 threads=6 ctx_vol=2137 ctx_nonvol=2137 fds=30
+pid=1367816 rss_kb=134576 hwm_kb=134576 threads=6 ctx_vol=1741 ctx_nonvol=1741 fds=31
+
+== Worker churn / timeouts (from /tmp/perf.ZzjTdT/gunicorn.log) ==
+none — no timeouts, no respawns
+
+== REPORT ==
+target: http://127.0.0.1:37249  (host header: satwagia.fayolex.co.id.localhost)
+gunicorn: workers=2 threads=4 class=gthread preload timeout=120 bind=0.0.0.0:0
+cpu-affinity (taskset): 0-3  (host nproc=12)
+
+-- RSS/FD growth per worker (kb, post - baseline):
+pid=1367815 rss_kb=25988 hwm_kb=25988 threads=3 ctx_vol=2137 ctx_nonvol=2137 fds=10
+pid=1367816 rss_kb=35648 hwm_kb=35648 threads=5 ctx_vol=1741 ctx_nonvol=1741 fds=15
+
+-- k6 digest:
+  http_req_duration: {'avg': 61.8784, 'min': 10.2648, 'med': 63.4057, 'p(90)': 97.7689, 'p(95)': 124.4617, 'p(99)': 158.5685, 'max': 348.109, 'count': 10944}
+  crud_iteration_duration_ms: {'avg': 745.1985, 'min': 212, 'med': 893.0, 'p(90)': 970.0, 'p(95)': 997.45, 'p(99)': 1058.78, 'max': 1134, 'count': 912}
+  iteration_duration: {'avg': 995.7777, 'min': 463.0397, 'med': 1143.768, 'p(90)': 1220.8015, 'p(95)': 1248.0742, 'p(99)': 1309.3699, 'max': 1384.3882, 'count': 912}
+  http_req_duration[todo_create]: {'avg': 63.9299, 'min': 14.8613, 'med': 70.9352, 'p(90)': 96.6273, 'p(95)': 104.7285, 'p(99)': 120.4095, 'max': 137.3051, 'count': 912}
+  http_reqs[todo_create]: {'rate': 15.1834, 'count': 912}
+  http_req_duration[todo_item_get]: {'avg': 53.3603, 'min': 10.2648, 'med': 59.5073, 'p(90)': 81.8412, 'p(95)': 87.7723, 'p(99)': 100.7475, 'max': 122.072, 'count': 4141}
+  http_reqs[todo_item_get]: {'rate': 68.5062, 'count': 4141}
+  http_req_duration[todo_list_get]: {'avg': 53.9876, 'min': 10.8993, 'med': 60.5327, 'p(90)': 82.9312, 'p(95)': 89.9263, 'p(99)': 101.9791, 'max': 120.3122, 'count': 4067}
+  http_reqs[todo_list_get]: {'rate': 67.3022, 'count': 4067}
+  http_req_duration[todo_update]: {'avg': 76.1399, 'min': 24.1807, 'med': 83.9682, 'p(90)': 108.3791, 'p(95)': 117.0532, 'p(99)': 134.0086, 'max': 159.1086, 'count': 912}
+  http_reqs[todo_update]: {'rate': 15.1107, 'count': 912}
+  http_req_duration[todo_delete]: {'avg': 119.4312, 'min': 43.5753, 'med': 128.4208, 'p(90)': 160.5911, 'p(95)': 169.7774, 'p(99)': 203.4055, 'max': 348.109, 'count': 912}
+  http_reqs[todo_delete]: {'rate': 15.1092, 'count': 912}
+  request_counts: {'create': {'count': 912, 'rate': 15.1834}, 'item_read': {'count': 4141, 'rate': 68.5062}, 'list_read': {'count': 4067, 'rate': 67.3022}, 'update': {'count': 912, 'rate': 15.1107}, 'delete': {'count': 912, 'rate': 15.1092}, 'crud_operations_total': {'count': 6877}, 'list_reads_total': {'count': 4067}, 'all_requests_total': {'count': 10944}}
+  http_req_failed: {'rate': 0.0}
+  http_reqs: {'rate': 179.9293}
+
+-- last k6 summary lines:
+    ✓ created
+    ✓ item read 200
+    ✓ list read 200
+    ✓ update 200
+    ✓ delete 2xx
+
+    CUSTOM
+    crud_iteration_duration_ms.....: avg=745.19ms p(0.5)=224.11ms p(0.9)=229.59ms p(0.95)=230.96ms p(0.99)=232.01ms
+
+    HTTP
+    http_req_duration..............: avg=61.87ms  p(0.5)=11.72ms  p(0.9)=12.04ms  p(0.95)=12.1ms   p(0.99)=12.12ms 
+      { expected_response:true }...: avg=61.87ms  p(0.5)=11.72ms  p(0.9)=12.04ms  p(0.95)=12.1ms   p(0.99)=12.12ms 
+    http_req_failed................: 0.00%  0 out of 10944
+    http_reqs......................: 10944  179.832352/s
+
+    EXECUTION
+    iteration_duration.............: avg=995.77ms p(0.5)=474.33ms p(0.9)=481ms    p(0.95)=482.22ms p(0.99)=483.16ms
+    iterations.....................: 912    14.986029/s
+    vus............................: 15     min=15         max=15
+    vus_max........................: 15     min=15         max=15
+
+    NETWORK
+    data_received..................: 6.8 MB 112 kB/s
+    data_sent......................: 3.2 MB 53 kB/s
+
+running (1m00.9s), 00/15 VUs, 912 complete and 0 interrupted iterations
+stress ✓ [ 100% ] 15 VUs  1m0s
+
+== artifacts: /tmp/perf.ZzjTdT ==
+ticlext@ALTHAX:/mnt/project-premium/hris/new-bench-2/apps/frappe$ ./perf.sh matrix
+
+== Run topology matrix: 1x1,1x4,2x1,2x4,4x1,4x2 ==
+
+== Matrix point 1x1 ==
+
+== Matrix point 1x4 ==
+
+== Matrix point 2x1 ==
+
+== Matrix point 2x4 ==
+
+== Matrix point 4x1 ==
+
+== Matrix point 4x2 ==
+
+== Matrix report ==
+workers  threads  stable  rps       p50_ms    p95_ms    p99_ms    fail_pct  rss_delta_kb  timeouts  artifacts
+1        1        1       65.9267   126.1605  176.7343  213.0530  0.0000    22228         0         /tmp/perf.l0tNGc
+1        4        1       156.1703  36.6895   93.0407   111.9974  0.0000    27576         0         /tmp/perf.fBkQ2t
+2        1        1       88.9875   107.7000  154.0761  183.5551  0.0000    53420         0         /tmp/perf.74ThWK
+2        4        1       187.8561  23.2834   93.6885   127.3470  0.0000    64372         0         /tmp/perf.fHencn
+4        1        1       143.8983  20.9547   251.3251  320.5099  0.0000    114788        0         /tmp/perf.QTg19F
+4        2        1       169.2385  56.6386   154.1283  219.7005  0.0000    123708        0         /tmp/perf.hn2ChY
+recommended topology: 2 workers x 4 threads
+matrix artifacts: /tmp/perf-matrix.A9LkHh
+```
+
+we limit to 4 cpu out of 6 physical core, 12 threads
+
+
+
+we also check mariadb, its not DB, and python code is not heavy compute either, so where the bottleneck?
+
+
+So we check: https://github.com/emmett-framework/granian/blob/master/benchmarks/vs.md
+
+the improvement from Gunicorn WSGI to Granian WSGI is 
+
+Granian Wsgi get 10KB (c64)	1258541	125824	0.507ms	25.507ms
+Granian Wsgi echo 10KB (iter) (c64)	1081157	108084	0.589ms	34.131ms
+
+Gunicorn Gthread get 10KB (c64)	91704	9175	6.963ms	39.026ms
+Gunicorn Gthread echo 10KB (iter) (c64)	67395	6744	9.479ms	27.452ms
+
+9k to 125k RPS, so free performance I thought
+
+
+then the benchmark come in
+
+```
+PERF_SERVER=granian ./perf.sh
+
+== Boot granian — CPU list 0-3, 2w x 4t, bind 0.0.0.0:0 ==
+
+== Wait granian ready (site satwagia.fayolex.co.id.localhost, port 45943) ==
+  pid 1508782's current affinity list: 0-3
+  pid 1508796's current affinity list: 0-3
+  pid 1508797's current affinity list: 0-3
+  pid 1508799's current affinity list: 0-3
+
+== Baseline idle (before load) ==
+master=1508782 workers=1508796 1508797 1508799
+pid=1508796 rss_kb=14068 hwm_kb=14068 threads=1 ctx_vol=0 ctx_nonvol=0 fds=4
+pid=1508797 rss_kb=135760 hwm_kb=135760 threads=5 ctx_vol=465 ctx_nonvol=465 fds=24
+pid=1508799 rss_kb=129412 hwm_kb=129412 threads=4 ctx_vol=3 ctx_nonvol=3 fds=19
+-- /dev/shm:
+tmpfs            20G  479M   20G   3% /dev/shm
+LISTEN 0      1024         0.0.0.0:45943      0.0.0.0:*    users:(("python",pid=1508797,fd=10))
+LISTEN 0      1024         0.0.0.0:45943      0.0.0.0:*    users:(("python",pid=1508799,fd=10))
+
+== Run adaptive k6 load (VUs up to 200, discovery=60s, stable hold=60s, seed=20) ==
+adaptive phase=0 mode=staircase vus=10 duration=10s
+adaptive result phase=0 mode=staircase vus=10 rps=197.034201 p95_ms=8.33 failed_pct=0.00
+adaptive phase=1 mode=staircase vus=15 duration=10s
+adaptive result phase=1 mode=staircase vus=15 rps=210.978163 p95_ms=11.11 failed_pct=0.00
+adaptive phase=2 mode=staircase vus=20 duration=10s
+adaptive result phase=2 mode=staircase vus=20 rps=195.299902 p95_ms=25.59 failed_pct=0.00
+adaptive phase=3 mode=binary vus=20 duration=10s
+adaptive result phase=3 mode=binary vus=20 rps=205.318534 p95_ms=16.93 failed_pct=0.00
+adaptive phase=4 mode=binary vus=17 duration=10s
+adaptive result phase=4 mode=binary vus=17 rps=199.263879 p95_ms=10.07 failed_pct=0.00
+adaptive phase=5 mode=binary vus=16 duration=10s
+adaptive result phase=5 mode=binary vus=16 rps=185.553727 p95_ms=11.54 failed_pct=0.00
+adaptive hold vus=15 duration=60s
+
+== Post-load snapshot ==
+pid=1508796 rss_kb=14068 hwm_kb=14068 threads=1 ctx_vol=0 ctx_nonvol=0 fds=4
+pid=1508797 rss_kb=163120 hwm_kb=163440 threads=8 ctx_vol=465 ctx_nonvol=465 fds=34
+pid=1508799 rss_kb=162992 hwm_kb=163376 threads=8 ctx_vol=3 ctx_nonvol=3 fds=40
+
+== Worker churn / timeouts (from /tmp/perf.jmTalQ/granian.log) ==
+none — no timeouts, no respawns
+
+== REPORT ==
+target: http://127.0.0.1:45943  (host header: satwagia.fayolex.co.id.localhost)
+server: granian workers=2 blocking_threads=4 runtime_threads=1 interface=wsgi bind=0.0.0.0:0
+cpu-affinity (taskset): 0-3  (host nproc=12)
+
+-- RSS/FD growth per worker (kb, post - baseline):
+pid=1508796 rss_kb=0 hwm_kb=0 threads=0 ctx_vol=0 ctx_nonvol=0 fds=0
+pid=1508797 rss_kb=27360 hwm_kb=27680 threads=3 ctx_vol=0 ctx_nonvol=0 fds=10
+pid=1508799 rss_kb=33580 hwm_kb=33964 threads=4 ctx_vol=0 ctx_nonvol=0 fds=21
+
+-- k6 digest:
+  http_req_duration: {'avg': 83.7475, 'min': 9.2951, 'med': 66.2868, 'p(90)': 166.95, 'p(95)': 205.6534, 'p(99)': 313.3881, 'max': 550.77, 'count': 8640}
+  crud_iteration_duration_ms: {'avg': 1009.25, 'min': 379, 'med': 1010.0, 'p(90)': 1532.8, 'p(95)': 1728.15, 'p(99)': 1874.86, 'max': 1952, 'count': 720}
+  iteration_duration: {'avg': 1259.98, 'min': 629.6131, 'med': 1261.3675, 'p(90)': 1784.7336, 'p(95)': 1978.9918, 'p(99)': 2125.5304, 'max': 2203.3474, 'count': 720}
+  http_req_duration[todo_create]: {'avg': 104.947, 'min': 22.0696, 'med': 95.5616, 'p(90)': 169.5045, 'p(95)': 200.7808, 'p(99)': 271.4916, 'max': 361.7719, 'count': 720}
+  http_reqs[todo_create]: {'rate': 12.0044, 'count': 720}
+  http_req_duration[todo_list_get]: {'avg': 64.1084, 'min': 9.2951, 'med': 55.8845, 'p(90)': 110.6474, 'p(95)': 141.1784, 'p(99)': 190.8086, 'max': 305.0143, 'count': 3236}
+  http_reqs[todo_list_get]: {'rate': 53.7313, 'count': 3236}
+  http_req_duration[todo_item_get]: {'avg': 63.0839, 'min': 9.7235, 'med': 54.2332, 'p(90)': 112.7484, 'p(95)': 140.9409, 'p(99)': 190.8836, 'max': 303.15, 'count': 3244}
+  http_reqs[todo_item_get]: {'rate': 53.7969, 'count': 3244}
+  http_req_duration[todo_update]: {'avg': 113.9791, 'min': 33.1423, 'med': 101.9203, 'p(90)': 178.1855, 'p(95)': 210.5549, 'p(99)': 284.6464, 'max': 394.5392, 'count': 720}
+  http_reqs[todo_update]: {'rate': 12.016, 'count': 720}
+  http_req_duration[todo_delete]: {'avg': 213.6838, 'min': 77.301, 'med': 199.1061, 'p(90)': 317.1049, 'p(95)': 370.2968, 'p(99)': 429.4447, 'max': 550.77, 'count': 720}
+  http_reqs[todo_delete]: {'rate': 12.0265, 'count': 720}
+  request_counts: {'create': {'count': 720, 'rate': 12.0044}, 'list_read': {'count': 3236, 'rate': 53.7313}, 'item_read': {'count': 3244, 'rate': 53.7969}, 'update': {'count': 720, 'rate': 12.016}, 'delete': {'count': 720, 'rate': 12.0265}, 'crud_operations_total': {'count': 5404}, 'list_reads_total': {'count': 3236}, 'all_requests_total': {'count': 8640}}
+  http_req_failed: {'rate': 0.0}
+  http_reqs: {'rate': 142.1875}
+
+-- last k6 summary lines:
+    ✓ created
+    ✓ list read 200
+    ✓ item read 200
+    ✓ update 200
+    ✓ delete 2xx
+
+    CUSTOM
+    crud_iteration_duration_ms.....: avg=1s      p(0.5)=450.57ms p(0.9)=475.47ms p(0.95)=475.83ms p(0.99)=476.11ms
+
+    HTTP
+    http_req_duration..............: avg=83.74ms p(0.5)=15.35ms  p(0.9)=17.58ms  p(0.95)=17.62ms  p(0.99)=17.68ms 
+      { expected_response:true }...: avg=83.74ms p(0.5)=15.35ms  p(0.9)=17.58ms  p(0.95)=17.62ms  p(0.99)=17.68ms 
+    http_req_failed................: 0.00%  0 out of 8640
+    http_reqs......................: 8640   142.043245/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.25s   p(0.5)=701.55ms p(0.9)=726.25ms p(0.95)=726.75ms p(0.99)=727.08ms
+    iterations.....................: 720    11.836937/s
+    vus............................: 15     min=15        max=15
+    vus_max........................: 15     min=15        max=15
+
+    NETWORK
+    data_received..................: 5.1 MB 85 kB/s
+    data_sent......................: 2.5 MB 42 kB/s
+
+
+
+
+running (1m00.8s), 00/15 VUs, 720 complete and 0 interrupted iterations
+stress ✓ [ 100% ] 15 VUs  1m0s
+
+== artifacts: /tmp/perf.jmTalQ ==
+```
+this result doesnt make sense, it get slow down
